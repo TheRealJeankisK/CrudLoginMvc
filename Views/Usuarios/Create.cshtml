@@ -1,0 +1,19 @@
+@model UsuarioFormViewModel
+@{
+    ViewData["Title"] = "Nuevo usuario";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <h1 class="h3 mb-4">Nuevo usuario</h1>
+        <form asp-action="Create" method="post">
+            <partial name="_Formulario" model="Model" />
+            <button type="submit" class="btn btn-success">Guardar</button>
+            <a asp-action="Index" class="btn btn-link">Volver</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
