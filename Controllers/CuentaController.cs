@@ -21,18 +21,18 @@ public class CuentaController : Controller
         _hasher = hasher;
     }
 
-    // GET /Cuenta/Login muestra el form
+    // mostrar form de login (GET)
     [HttpGet]
     public IActionResult Login(string? returnUrl = null)
     {
-        // si viene con ReturnUrl es que quiso entrar a algo protegido sin estar logueado
+        // aviso si quiso entrar a algo protegido sin login (viene con ReturnUrl)
         if (!string.IsNullOrEmpty(returnUrl))
             ViewBag.Aviso = "No tienes permiso para entrar a esa sección. Inicia sesión primero.";
 
         return View(new LoginViewModel { ReturnUrl = returnUrl });
     }
 
-    // POST /Cuenta/Login valida usuario y contraseña
+    // validar usuario y contraseña (POST)
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Login(LoginViewModel modelo)
@@ -43,19 +43,19 @@ public class CuentaController : Controller
         var usuario = await _db.Usuarios
             .FirstOrDefaultAsync(u => u.NombreUsuario == modelo.NombreUsuario);
 
-        // cifra lo que escribio y lo compara con el hash de la bd
+        // aqui cifro lo que escribio y lo comparo con el hash de la bd
         var passwordCorrecta = usuario != null &&
             _hasher.VerifyHashedPassword(usuario, usuario.PasswordHash, modelo.Password)
                 != PasswordVerificationResult.Failed;
 
         if (!passwordCorrecta)
         {
-            // mismo mensaje para los dos casos asi no se sabe cual fallo
+            // mismo mensaje para los dos casos (asi no se sabe cual fallo)
             ModelState.AddModelError("", "Usuario o contraseña incorrectos.");
             return View(modelo);
         }
 
-        // claims = datos del usuario que van dentro de la cookie
+        // datos del usuario que van en la cookie (claims)
         var claims = new List<Claim>
         {
             new(ClaimTypes.NameIdentifier, usuario!.Id.ToString()),
@@ -67,14 +67,14 @@ public class CuentaController : Controller
             CookieAuthenticationDefaults.AuthenticationScheme,
             new ClaimsPrincipal(identidad));
 
-        // IsLocalUrl para que no te redirijan a otra pagina externa
+        // regresar a la pagina que queria (IsLocalUrl evita que redirija a una pagina externa)
         if (Url.IsLocalUrl(modelo.ReturnUrl))
             return Redirect(modelo.ReturnUrl!);
 
         return RedirectToAction("Index", "Usuarios");
     }
 
-    // POST /Cuenta/Logout borra la cookie y regresa al login
+    // cerrar sesion, borra la cookie (POST)
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Logout()

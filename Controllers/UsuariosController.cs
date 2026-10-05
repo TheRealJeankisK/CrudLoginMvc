@@ -8,8 +8,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CrudLoginMvc.Controllers;
 
-// [Authorize] protege todo el controller
-// sin login cualquier url /Usuarios/... te bota al login
+// CRUD de usuarios
+// [Authorize] protege todo el controller (sin login cualquier url /Usuarios/... manda al login)
 [Authorize]
 public class UsuariosController : Controller
 {
@@ -22,14 +22,14 @@ public class UsuariosController : Controller
         _hasher = hasher;
     }
 
-    // READ lista - GET /Usuarios
+    // listar usuarios (GET /Usuarios)
     public async Task<IActionResult> Index()
     {
         var usuarios = await _db.Usuarios.OrderBy(u => u.Nombre).ToListAsync();
         return View(usuarios);
     }
 
-    // READ detalle - GET /Usuarios/Details/5
+    // ver detalle (GET /Usuarios/Details/5)
     public async Task<IActionResult> Details(int id)
     {
         var usuario = await _db.Usuarios.FindAsync(id);
@@ -37,13 +37,13 @@ public class UsuariosController : Controller
         return View(usuario);
     }
 
-    // CREATE - GET muestra el form vacio
+    // mostrar form vacio para crear (GET)
     public IActionResult Create()
     {
         return View(new UsuarioFormViewModel());
     }
 
-    // CREATE - POST guarda
+    // crear usuario (POST)
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(UsuarioFormViewModel form)
@@ -72,7 +72,7 @@ public class UsuariosController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    // UPDATE - GET form con los datos actuales
+    // mostrar form con los datos actuales (GET)
     public async Task<IActionResult> Edit(int id)
     {
         var usuario = await _db.Usuarios.FindAsync(id);
@@ -88,7 +88,7 @@ public class UsuariosController : Controller
         return View(form);
     }
 
-    // UPDATE - POST guarda cambios
+    // editar usuario (POST)
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(int id, UsuarioFormViewModel form)
@@ -108,7 +108,7 @@ public class UsuariosController : Controller
         usuario.Correo = form.Correo;
         usuario.NombreUsuario = form.NombreUsuario;
 
-        // solo cambia la contraseña si escribio una nueva
+        // aqui solo cambio la contraseña si escribio una nueva
         if (!string.IsNullOrWhiteSpace(form.Password))
             usuario.PasswordHash = _hasher.HashPassword(usuario, form.Password);
 
@@ -118,7 +118,7 @@ public class UsuariosController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    // DELETE - GET pide confirmacion
+    // pedir confirmacion para eliminar (GET)
     public async Task<IActionResult> Delete(int id)
     {
         var usuario = await _db.Usuarios.FindAsync(id);
@@ -126,7 +126,7 @@ public class UsuariosController : Controller
         return View(usuario);
     }
 
-    // DELETE - POST aqui si borra
+    // eliminar usuario (POST)
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(int id)
@@ -134,7 +134,7 @@ public class UsuariosController : Controller
         var usuario = await _db.Usuarios.FindAsync(id);
         if (usuario == null) return NotFound();
 
-        // no dejo que se borre a si mismo
+        // no dejar que se borre a si mismo
         if (usuario.Id == IdUsuarioActual())
         {
             TempData["Error"] = "No puedes eliminar tu propia cuenta mientras la usas.";
@@ -148,7 +148,7 @@ public class UsuariosController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    // metodos de apoyo, se usan en varias acciones (DRY)
+    // metodos de apoyo (se usan en varias acciones, DRY)
 
     private Task<bool> NombreUsuarioOcupado(string nombreUsuario, int idActual) =>
         _db.Usuarios.AnyAsync(u => u.NombreUsuario == nombreUsuario && u.Id != idActual);

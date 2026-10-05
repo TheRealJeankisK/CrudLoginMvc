@@ -27,7 +27,7 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" asp-action="Index">Usuarios</a>
                         </li>
                     </ul>
-                    @* si esta logueado muestra el nombre y el boton de salir, si no el de iniciar sesion *@
+                    @* nombre y boton de salir si esta logueado (si no, boton de iniciar sesion) *@
                     @if (User.Identity?.IsAuthenticated == true)
                     {
                         <form asp-controller="Cuenta" asp-action="Logout" method="post" class="d-flex align-items-center gap-2">

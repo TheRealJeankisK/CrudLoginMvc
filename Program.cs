@@ -9,15 +9,15 @@ var builder = WebApplication.CreateBuilder(args);
 // servicios de la app
 builder.Services.AddControllersWithViews();
 
-// bd en sqlite, es un solo archivo crudlogin.db (la ruta esta en appsettings.json)
+// conexion a la bd sqlite (la ruta esta en appsettings.json)
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// para cifrar las contraseñas, usa PBKDF2 con salt que es mas seguro que md5
+// cifrado de contraseñas (PBKDF2 con salt, mas seguro que md5)
 builder.Services.AddScoped<IPasswordHasher<Usuario>, PasswordHasher<Usuario>>();
 
-// login con cookie, cuando inicias sesion el navegador guarda la cookie
-// si no estas logueado y entras a algo protegido te manda al LoginPath
+// aqui configuro el login con cookie
+// si no esta logueado y entra a algo protegido lo manda al LoginPath
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
@@ -29,8 +29,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 
 var app = builder.Build();
 
-// al arrancar crea la bd si no existe y mete el admin inicial
-// sino no habria con quien entrar la primera vez
+// aqui creo la bd si no existe y el admin inicial (sino no hay con quien entrar la primera vez)
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
@@ -61,7 +60,7 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseRouting();
 
-// ojo el orden importa, primero ve quien eres (authentication) y despues que puedes hacer (authorization)
+// primero authentication y luego authorization (el orden importa)
 app.UseAuthentication();
 app.UseAuthorization();
 

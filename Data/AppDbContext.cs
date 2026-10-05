@@ -3,17 +3,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CrudLoginMvc.Data;
 
-// puente entre las clases de c# y la bd
+// contexto de la bd (puente entre las clases de c# y las tablas)
 public class AppDbContext : DbContext
 {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-    // cada DbSet es una tabla, con db.Usuarios consultas, agregas o borras
+    // tabla Usuarios (cada DbSet es una tabla)
     public DbSet<Usuario> Usuarios => Set<Usuario>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // que no se repita el nombre de usuario
+        // nombre de usuario unico
         modelBuilder.Entity<Usuario>()
             .HasIndex(u => u.NombreUsuario)
             .IsUnique();

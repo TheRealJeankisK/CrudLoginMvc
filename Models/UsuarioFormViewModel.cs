@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 namespace CrudLoginMvc.Models;
 
 // form para crear y editar usuarios
-// uso esto y no Usuario porque aqui llega la contraseña en texto para cifrarla, la tabla solo tiene el hash
+// (aqui llega la contraseña en texto para cifrarla, la tabla solo guarda el hash)
 public class UsuarioFormViewModel
 {
     public int Id { get; set; }
@@ -22,7 +22,7 @@ public class UsuarioFormViewModel
     [Display(Name = "Usuario")]
     public string NombreUsuario { get; set; } = "";
 
-    // al crear es obligatoria (lo valido en el controller), al editar si va vacia no se cambia
+    // contraseña (obligatoria al crear, al editar si va vacia no se cambia)
     [DataType(DataType.Password)]
     [StringLength(100, MinimumLength = 6, ErrorMessage = "La contraseña debe tener al menos 6 caracteres.")]
     [Display(Name = "Contraseña")]

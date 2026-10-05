@@ -14,7 +14,7 @@
     <dd class="col-sm-9">@Model.Correo</dd>
 </dl>
 
-@* el borrado va por POST, un link GET nunca deberia borrar *@
+@* aqui el borrado va por POST (un link GET nunca deberia borrar) *@
 <form asp-action="Delete" asp-route-id="@Model.Id" method="post">
     <button type="submit" class="btn btn-danger">Sí, eliminar</button>
     <a asp-action="Index" class="btn btn-link">Cancelar</a>
