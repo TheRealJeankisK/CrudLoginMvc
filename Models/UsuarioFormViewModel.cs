@@ -2,9 +2,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CrudLoginMvc.Models;
 
-// ViewModel del formulario para crear y editar usuarios.
-// Se usa en vez de "Usuario" porque el formulario pide la contraseña en texto
-// (para cifrarla) y la tabla solo guarda el hash.
+// form para crear y editar usuarios
+// uso esto y no Usuario porque aqui llega la contraseña en texto para cifrarla, la tabla solo tiene el hash
 public class UsuarioFormViewModel
 {
     public int Id { get; set; }
@@ -23,7 +22,7 @@ public class UsuarioFormViewModel
     [Display(Name = "Usuario")]
     public string NombreUsuario { get; set; } = "";
 
-    // Al crear es obligatoria (lo valida el controlador). Al editar, si se deja vacía, no se cambia.
+    // al crear es obligatoria (lo valido en el controller), al editar si va vacia no se cambia
     [DataType(DataType.Password)]
     [StringLength(100, MinimumLength = 6, ErrorMessage = "La contraseña debe tener al menos 6 caracteres.")]
     [Display(Name = "Contraseña")]

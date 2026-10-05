@@ -6,18 +6,18 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// servicios de la app
 builder.Services.AddControllersWithViews();
 
-// Base de datos: SQLite, un solo archivo (crudlogin.db). La ruta está en appsettings.json.
+// bd en sqlite, es un solo archivo crudlogin.db (la ruta esta en appsettings.json)
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Servicio que cifra y verifica contraseñas (PBKDF2 con "salt"; más seguro que MD5).
+// para cifrar las contraseñas, usa PBKDF2 con salt que es mas seguro que md5
 builder.Services.AddScoped<IPasswordHasher<Usuario>, PasswordHasher<Usuario>>();
 
-// Login con cookie: al iniciar sesión el navegador guarda una cookie cifrada que identifica al usuario.
-// Si alguien sin sesión entra a una página protegida, se le redirige a LoginPath.
+// login con cookie, cuando inicias sesion el navegador guarda la cookie
+// si no estas logueado y entras a algo protegido te manda al LoginPath
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
@@ -29,8 +29,8 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 
 var app = builder.Build();
 
-// Al arrancar: crea la base de datos si no existe y agrega el administrador inicial,
-// para poder iniciar sesión la primera vez.
+// al arrancar crea la bd si no existe y mete el admin inicial
+// sino no habria con quien entrar la primera vez
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
@@ -52,18 +52,16 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
 app.UseHttpsRedirection();
 app.UseRouting();
 
-// El orden importa: primero se identifica quién es (autenticación), luego qué puede hacer (autorización).
+// ojo el orden importa, primero ve quien eres (authentication) y despues que puedes hacer (authorization)
 app.UseAuthentication();
 app.UseAuthorization();
 

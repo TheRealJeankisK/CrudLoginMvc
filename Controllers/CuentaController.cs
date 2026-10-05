@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CrudLoginMvc.Controllers;
 
-// Controlador de la cuenta: iniciar y cerrar sesión.
+// login y logout
 public class CuentaController : Controller
 {
     private readonly AppDbContext _db;
@@ -21,18 +21,18 @@ public class CuentaController : Controller
         _hasher = hasher;
     }
 
-    // GET /Cuenta/Login → muestra el formulario.
+    // GET /Cuenta/Login muestra el form
     [HttpGet]
     public IActionResult Login(string? returnUrl = null)
     {
-        // Si llega con ReturnUrl es porque intentó entrar a una página protegida sin sesión.
+        // si viene con ReturnUrl es que quiso entrar a algo protegido sin estar logueado
         if (!string.IsNullOrEmpty(returnUrl))
             ViewBag.Aviso = "No tienes permiso para entrar a esa sección. Inicia sesión primero.";
 
         return View(new LoginViewModel { ReturnUrl = returnUrl });
     }
 
-    // POST /Cuenta/Login → revisa usuario y contraseña.
+    // POST /Cuenta/Login valida usuario y contraseña
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Login(LoginViewModel modelo)
@@ -43,19 +43,19 @@ public class CuentaController : Controller
         var usuario = await _db.Usuarios
             .FirstOrDefaultAsync(u => u.NombreUsuario == modelo.NombreUsuario);
 
-        // Se cifra la contraseña escrita y se compara con el hash guardado.
+        // cifra lo que escribio y lo compara con el hash de la bd
         var passwordCorrecta = usuario != null &&
             _hasher.VerifyHashedPassword(usuario, usuario.PasswordHash, modelo.Password)
                 != PasswordVerificationResult.Failed;
 
         if (!passwordCorrecta)
         {
-            // Mismo mensaje para usuario o contraseña: así no se revela cuál de los dos falló.
+            // mismo mensaje para los dos casos asi no se sabe cual fallo
             ModelState.AddModelError("", "Usuario o contraseña incorrectos.");
             return View(modelo);
         }
 
-        // "Claims": los datos del usuario que viajan dentro de la cookie.
+        // claims = datos del usuario que van dentro de la cookie
         var claims = new List<Claim>
         {
             new(ClaimTypes.NameIdentifier, usuario!.Id.ToString()),
@@ -67,14 +67,14 @@ public class CuentaController : Controller
             CookieAuthenticationDefaults.AuthenticationScheme,
             new ClaimsPrincipal(identidad));
 
-        // Url.IsLocalUrl evita redirigir a sitios externos (ataque de "open redirect").
+        // IsLocalUrl para que no te redirijan a otra pagina externa
         if (Url.IsLocalUrl(modelo.ReturnUrl))
             return Redirect(modelo.ReturnUrl!);
 
         return RedirectToAction("Index", "Usuarios");
     }
 
-    // POST /Cuenta/Logout → borra la cookie y vuelve al login.
+    // POST /Cuenta/Logout borra la cookie y regresa al login
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Logout()

@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CrudLoginMvc.Models;
 
-// ViewModel: solo los datos que necesita el formulario de login (no es una tabla).
+// datos del form de login, no es tabla
 public class LoginViewModel
 {
     [Required(ErrorMessage = "Ingresa tu usuario.")]
@@ -14,6 +14,6 @@ public class LoginViewModel
     [Display(Name = "Contraseña")]
     public string Password { get; set; } = "";
 
-    // Página a la que se quería entrar antes de que pidiera iniciar sesión.
+    // la pagina a la que queria entrar antes de que le pida login
     public string? ReturnUrl { get; set; }
 }
