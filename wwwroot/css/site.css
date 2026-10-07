@@ -1,5 +1,16 @@
+/* colores de la app (se cambian aqui y aplican en todo lado) */
+:root {
+  --color-primario: #4f46e5;
+  --color-primario-oscuro: #3730a3;
+  --color-fondo: #f3f4f8;
+  --color-texto-suave: #6b7280;
+  --radio: 14px;
+}
+
 html {
   font-size: 14px;
+  position: relative;
+  min-height: 100%;
 }
 
 @media (min-width: 768px) {
@@ -8,24 +19,131 @@ html {
   }
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
-}
-
 body {
-  margin-bottom: 60px;
+  background: var(--color-fondo);
+  margin-bottom: 70px;
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+/* barra de navegacion */
+.navbar-app {
+  background: linear-gradient(90deg, var(--color-primario-oscuro), var(--color-primario));
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+.navbar-app .navbar-brand,
+.navbar-app .nav-link {
+  color: #fff;
+}
+
+.navbar-app .nav-link:hover {
+  color: #c7d2fe;
+}
+
+.navbar-app .saludo {
+  color: #e0e7ff;
+}
+
+/* tarjetas (cards) con sombra suave */
+.tarjeta {
+  background: #fff;
+  border: none;
+  border-radius: var(--radio);
+  box-shadow: 0 4px 20px rgba(17, 24, 39, 0.06);
+  padding: 1.75rem;
+}
+
+.titulo-pagina {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.subtitulo {
+  color: var(--color-texto-suave);
+}
+
+/* login centrado en la pantalla */
+.login-contenedor {
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-tarjeta {
+  width: 100%;
+  max-width: 420px;
+}
+
+.login-icono {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #eef2ff;
+  color: var(--color-primario);
+  font-size: 1.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+}
+
+/* boton principal con el color de la app */
+.btn-app {
+  background: var(--color-primario);
+  border-color: var(--color-primario);
+  color: #fff;
+}
+
+.btn-app:hover {
+  background: var(--color-primario-oscuro);
+  border-color: var(--color-primario-oscuro);
+  color: #fff;
+}
+
+/* tabla de usuarios */
+.tabla-usuarios thead th {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-texto-suave);
+  border-bottom-width: 1px;
+}
+
+/* circulo con la inicial del usuario */
+.avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #eef2ff;
+  color: var(--color-primario);
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* portada de la pagina de inicio */
+.portada {
+  text-align: center;
+  padding: 4rem 1rem;
+}
+
+.portada .login-icono {
+  width: 84px;
+  height: 84px;
+  font-size: 2.4rem;
+}
+
+.form-control:focus {
+  border-color: var(--color-primario);
+  box-shadow: 0 0 0 0.2rem rgba(79, 70, 229, 0.2);
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  line-height: 60px;
+  background: #fff;
 }

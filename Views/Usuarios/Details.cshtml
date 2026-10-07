@@ -3,21 +3,28 @@
     ViewData["Title"] = "Detalle de usuario";
 }
 
-<h1 class="h3 mb-4">Detalle de usuario</h1>
+<div class="row justify-content-center">
+    <div class="col-md-7 col-lg-6">
+        <div class="tarjeta text-center">
+            <span class="avatar mb-3" style="width:72px;height:72px;font-size:1.8rem">@Model.Nombre.Substring(0, 1).ToUpper()</span>
+            <h1 class="h4 titulo-pagina">@Model.Nombre</h1>
+            <p class="subtitulo">@@@Model.NombreUsuario</p>
 
-<dl class="row">
-    <dt class="col-sm-3">Nombre</dt>
-    <dd class="col-sm-9">@Model.Nombre</dd>
+            <ul class="list-group list-group-flush text-start my-4">
+                <li class="list-group-item d-flex justify-content-between">
+                    <span class="subtitulo"><i class="bi bi-envelope me-2"></i>Correo</span>
+                    <span>@Model.Correo</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between">
+                    <span class="subtitulo"><i class="bi bi-calendar3 me-2"></i>Fecha de creación</span>
+                    <span>@Model.FechaCreacion.ToString("dd/MM/yyyy HH:mm")</span>
+                </li>
+            </ul>
 
-    <dt class="col-sm-3">Usuario</dt>
-    <dd class="col-sm-9">@Model.NombreUsuario</dd>
-
-    <dt class="col-sm-3">Correo</dt>
-    <dd class="col-sm-9">@Model.Correo</dd>
-
-    <dt class="col-sm-3">Fecha de creación</dt>
-    <dd class="col-sm-9">@Model.FechaCreacion.ToString("dd/MM/yyyy HH:mm")</dd>
-</dl>
-
-<a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Editar</a>
-<a asp-action="Index" class="btn btn-link">Volver</a>
+            <div class="d-flex justify-content-center gap-2">
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-app"><i class="bi bi-pencil me-1"></i>Editar</a>
+                <a asp-action="Index" class="btn btn-outline-secondary">Volver</a>
+            </div>
+        </div>
+    </div>
+</div>

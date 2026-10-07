@@ -3,19 +3,29 @@
     ViewData["Title"] = "Eliminar usuario";
 }
 
-<h1 class="h3 mb-3">Eliminar usuario</h1>
-<div class="alert alert-danger">¿Seguro que quieres eliminar a <strong>@Model.NombreUsuario</strong>? Esta acción no se puede deshacer.</div>
+<div class="row justify-content-center">
+    <div class="col-md-7 col-lg-6">
+        <div class="tarjeta text-center">
+            <div class="login-icono" style="background:#fee2e2;color:#dc2626"><i class="bi bi-trash"></i></div>
+            <h1 class="h4 titulo-pagina">Eliminar usuario</h1>
+            <p class="subtitulo mb-4">
+                ¿Seguro que quieres eliminar a <strong>@Model.NombreUsuario</strong>?<br />Esta acción no se puede deshacer.
+            </p>
 
-<dl class="row">
-    <dt class="col-sm-3">Nombre</dt>
-    <dd class="col-sm-9">@Model.Nombre</dd>
+            <ul class="list-group list-group-flush text-start mb-4">
+                <li class="list-group-item d-flex justify-content-between">
+                    <span class="subtitulo">Nombre</span><span>@Model.Nombre</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between">
+                    <span class="subtitulo">Correo</span><span>@Model.Correo</span>
+                </li>
+            </ul>
 
-    <dt class="col-sm-3">Correo</dt>
-    <dd class="col-sm-9">@Model.Correo</dd>
-</dl>
-
-@* aqui el borrado va por POST (un link GET nunca deberia borrar) *@
-<form asp-action="Delete" asp-route-id="@Model.Id" method="post">
-    <button type="submit" class="btn btn-danger">Sí, eliminar</button>
-    <a asp-action="Index" class="btn btn-link">Cancelar</a>
-</form>
+            @* aqui el borrado va por POST (un link GET nunca deberia borrar) *@
+            <form asp-action="Delete" asp-route-id="@Model.Id" method="post" class="d-flex justify-content-center gap-2">
+                <button type="submit" class="btn btn-danger"><i class="bi bi-trash me-1"></i>Sí, eliminar</button>
+                <a asp-action="Index" class="btn btn-outline-secondary">Cancelar</a>
+            </form>
+        </div>
+    </div>
+</div>

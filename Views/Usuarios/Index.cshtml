@@ -3,46 +3,58 @@
     ViewData["Title"] = "Usuarios";
 }
 
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h1 class="h3 mb-0">Usuarios</h1>
-    <a asp-action="Create" class="btn btn-success">+ Nuevo usuario</a>
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
+    <div>
+        <h1 class="h3 titulo-pagina">Usuarios</h1>
+        <span class="subtitulo">@Model.Count() usuario(s) registrado(s)</span>
+    </div>
+    <a asp-action="Create" class="btn btn-app"><i class="bi bi-person-plus me-1"></i>Nuevo usuario</a>
 </div>
 
 @if (TempData["Mensaje"] != null)
 {
-    <div class="alert alert-success">@TempData["Mensaje"]</div>
+    <div class="alert alert-success"><i class="bi bi-check-circle me-1"></i>@TempData["Mensaje"]</div>
 }
 @if (TempData["Error"] != null)
 {
-    <div class="alert alert-danger">@TempData["Error"]</div>
+    <div class="alert alert-danger"><i class="bi bi-x-circle me-1"></i>@TempData["Error"]</div>
 }
 
-<div class="table-responsive">
-    <table class="table table-striped align-middle">
-        <thead>
-            <tr>
-                <th>Nombre</th>
-                <th>Usuario</th>
-                <th>Correo</th>
-                <th>Creado</th>
-                <th class="text-end">Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var u in Model)
-            {
+<div class="tarjeta p-0">
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0 tabla-usuarios">
+            <thead>
                 <tr>
-                    <td>@u.Nombre</td>
-                    <td>@u.NombreUsuario</td>
-                    <td>@u.Correo</td>
-                    <td>@u.FechaCreacion.ToString("dd/MM/yyyy")</td>
-                    <td class="text-end">
-                        <a asp-action="Details" asp-route-id="@u.Id" class="btn btn-sm btn-outline-secondary">Ver</a>
-                        <a asp-action="Edit" asp-route-id="@u.Id" class="btn btn-sm btn-outline-primary">Editar</a>
-                        <a asp-action="Delete" asp-route-id="@u.Id" class="btn btn-sm btn-outline-danger">Eliminar</a>
-                    </td>
+                    <th class="ps-4">Usuario</th>
+                    <th>Correo</th>
+                    <th>Creado</th>
+                    <th class="text-end pe-4">Acciones</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var u in Model)
+                {
+                    <tr>
+                        <td class="ps-4">
+                            <div class="d-flex align-items-center gap-3">
+                                @* inicial del nombre en un circulo *@
+                                <span class="avatar">@u.Nombre.Substring(0, 1).ToUpper()</span>
+                                <div>
+                                    <div class="fw-semibold">@u.Nombre</div>
+                                    <div class="small subtitulo">@@@u.NombreUsuario</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>@u.Correo</td>
+                        <td>@u.FechaCreacion.ToString("dd/MM/yyyy")</td>
+                        <td class="text-end pe-4">
+                            <a asp-action="Details" asp-route-id="@u.Id" class="btn btn-sm btn-outline-secondary" title="Ver"><i class="bi bi-eye"></i></a>
+                            <a asp-action="Edit" asp-route-id="@u.Id" class="btn btn-sm btn-outline-primary" title="Editar"><i class="bi bi-pencil"></i></a>
+                            <a asp-action="Delete" asp-route-id="@u.Id" class="btn btn-sm btn-outline-danger" title="Eliminar"><i class="bi bi-trash"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>

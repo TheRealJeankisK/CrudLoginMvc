@@ -4,13 +4,18 @@
 }
 
 <div class="row justify-content-center">
-    <div class="col-md-6">
-        <h1 class="h3 mb-4">Nuevo usuario</h1>
-        <form asp-action="Create" method="post">
-            <partial name="_Formulario" model="Model" />
-            <button type="submit" class="btn btn-success">Guardar</button>
-            <a asp-action="Index" class="btn btn-link">Volver</a>
-        </form>
+    <div class="col-md-7 col-lg-6">
+        <div class="tarjeta">
+            <h1 class="h4 titulo-pagina"><i class="bi bi-person-plus me-2"></i>Nuevo usuario</h1>
+            <p class="subtitulo mb-4">Completa los datos para registrar un usuario</p>
+            <form asp-action="Create" method="post">
+                <partial name="_Formulario" model="Model" />
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-app"><i class="bi bi-check-lg me-1"></i>Guardar</button>
+                    <a asp-action="Index" class="btn btn-outline-secondary">Volver</a>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
