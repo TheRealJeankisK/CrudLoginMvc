@@ -1,6 +1,6 @@
 # Gestión de Usuarios — CRUD con Login en ASP.NET Core MVC
 
-Aplicación web que implementa un **CRUD de usuarios** (crear, leer, actualizar y eliminar) protegido por un **sistema de inicio de sesión**. Fue desarrollada con el patrón **Modelo-Vista-Controlador (MVC)** como Tarea 3 de la materia **Ingeniería Web (ISWZ3101)** de la UDLA.
+Aplicación web que implementa un **CRUD de usuarios** (crear, leer, actualizar y eliminar) protegido por un **sistema de inicio de sesión**. Fue desarrollada con el patrón **Modelo-Vista-Controlador (MVC)** como Tarea de la materia **Ingeniería Web (ISWZ3101)** de la UDLA.
 
 > 🎥 **Video demostrativo:** _[enlace pendiente]_
 
@@ -21,10 +21,10 @@ Aplicación web que implementa un **CRUD de usuarios** (crear, leer, actualizar 
 
 ## Funcionalidades
 
-- **Inicio y cierre de sesión** con usuario y contraseña.
+- **Inicio y cierre de sesión**: con usuario y contraseña.
 - **CRUD completo de usuarios:** listar, ver detalle, crear, editar y eliminar.
 - **Rutas protegidas:** si no hay una sesión iniciada, ninguna página del CRUD es accesible, ni siquiera escribiendo la URL directamente en el navegador.
-- **Contraseñas cifradas** en la base de datos; nunca se guardan en texto plano.
+- **Contraseñas cifradas**: en la base de datos; nunca se guardan en texto plano.
 - **Validaciones:** campos obligatorios, formato de correo, contraseña de mínimo 6 caracteres, confirmación de contraseña y nombre de usuario único.
 - **Protección extra:** un usuario no puede eliminar la cuenta con la que inició sesión.
 
@@ -35,7 +35,7 @@ Aplicación web que implementa un **CRUD de usuarios** (crear, leer, actualizar 
 | **.NET 10 / ASP.NET Core MVC** | Framework web y patrón MVC. |
 | **C#** | Lenguaje del backend. |
 | **Entity Framework Core** | ORM: conecta las clases de C# con la base de datos. |
-| **SQLite** | Base de datos en un solo archivo (`crudlogin.db`); no requiere instalar un servidor. |
+| **SQLite** | Base de datos en un solo archivo (`crudlogin.db`). (Se utlizo esto para evirar instalaciones innesesarias) |
 | **Autenticación por cookies** | Manejo de la sesión del usuario. |
 | **PasswordHasher (PBKDF2)** | Cifrado de contraseñas. |
 | **Razor + Bootstrap 5** | Vistas y estilos. |
@@ -48,21 +48,26 @@ CrudLoginMvc/
 │   ├── Usuario.cs                  Tabla "Usuarios" (cada propiedad es una columna).
 │   ├── LoginViewModel.cs           Datos del formulario de login.
 │   └── UsuarioFormViewModel.cs     Datos del formulario de crear/editar.
+|
 ├── Views/                        ← VISTA: lo que ve el usuario
 │   ├── Cuenta/Login.cshtml         Formulario de inicio de sesión.
 │   ├── Usuarios/                   Index, Details, Create, Edit, Delete y el parcial _Formulario.
 │   └── Shared/_Layout.cshtml       Plantilla común (menú, botón de cerrar sesión).
+|
 ├── Controllers/                  ← CONTROLADOR: recibe la petición y decide qué hacer
 │   ├── CuentaController.cs         Login y logout.
 │   ├── UsuariosController.cs       CRUD de usuarios (protegido con [Authorize]).
 │   └── HomeController.cs           Página de inicio.
+|
 ├── Data/
 │   └── AppDbContext.cs           Contexto de la base de datos (Entity Framework Core).
+|
 ├── Program.cs                    Configuración: base de datos, cifrado, login y usuario inicial.
 └── appsettings.json              Cadena de conexión y datos del administrador inicial.
 ```
 
-**Flujo de una petición:** el usuario hace clic en una vista → el **controlador** recibe la petición → consulta o modifica los datos a través del **modelo** → devuelve una **vista** con el resultado.
+
+**Flujo de una petición:** El usuario hace clic en una vista → el **controlador** recibe la petición → consulta o modifica los datos a través del **modelo** → devuelve una **vista** con el resultado.
 
 ```mermaid
 flowchart LR
@@ -89,8 +94,10 @@ flowchart LR
 2. Ejecutar la aplicación:
    ```bash
    dotnet run
-   ```
-   En Visual Studio, también se puede abrir `CrudLoginMvc.csproj` y pulsar **▶ Ejecutar**.
+  
+   (En Visual Studio, también se puede abrir "CrudLoginMvc.csproj" y pulsar el boton *Ejecutar*)
+   ```  
+   
 3. Abrir en el navegador la dirección que aparece en la consola (por defecto, `http://localhost:5074`).
 
 > La base de datos `crudlogin.db` se **crea automáticamente** la primera vez que se ejecuta la aplicación, junto con el usuario administrador. No hace falta ejecutar migraciones ni scripts SQL.
@@ -101,7 +108,7 @@ flowchart LR
 |---|---|
 | `admin` | `Admin123!` |
 
-Estos datos se definen en `appsettings.json` (sección `AdminInicial`) y solo se usan para crear el primer usuario. Se recomienda cambiar la contraseña desde la opción **Editar** después del primer inicio de sesión.
+(Estos datos se definen en `appsettings.json` (sección `AdminInicial`) y solo se usan para crear el primer usuario. Se recomienda cambiar la contraseña desde la opción **Editar** después del primer inicio de sesión.)
 
 ## Cómo funciona la seguridad
 
@@ -140,8 +147,8 @@ El controlador `UsuariosController` tiene el atributo `[Authorize]`, que protege
 | `/Usuarios/Edit/{id}` | GET / POST | Editar usuario. | **Sí** |
 | `/Usuarios/Delete/{id}` | GET / POST | Eliminar usuario. | **Sí** |
 
-## Autor
+## //Autor//
 
-**Jean Carlos** — Estudiante de Ingeniería de Software, Universidad de Las Américas (UDLA), Ecuador.
+**Jean Carlos G.** — Estudiante de Ingeniería de Software, Universidad de Las Américas (UDLA), Ecuador.
 
-Proyecto desarrollado para la materia Ingeniería Web (ISWZ3101), semestre 2027-1, con apoyo de herramientas de IA.
+Proyecto desarrollado para la materia Ingeniería Web (ISWZ3101), semestre 2027-1.
