@@ -2,7 +2,11 @@
 
 Aplicación web que implementa un **CRUD de usuarios** (crear, leer, actualizar y eliminar) protegido por un **sistema de inicio de sesión**. Fue desarrollada con el patrón **Modelo-Vista-Controlador (MVC)** como Tarea de la materia **Ingeniería Web (ISWZ3101)** de la UDLA.
 
-> 🎥 **Video demostrativo:** _[enlace pendiente]_
+## 🎥 Video demostrativo
+
+[![Ver el video en YouTube](https://img.youtube.com/vi/Fi7NRuNBRrE/hqdefault.jpg)](https://www.youtube.com/watch?v=Fi7NRuNBRrE)
+
+▶️ [Ver en YouTube](https://www.youtube.com/watch?v=Fi7NRuNBRrE): funcionamiento del login, CRUD de usuarios y protección de rutas sin sesión.
 
 ---
 
